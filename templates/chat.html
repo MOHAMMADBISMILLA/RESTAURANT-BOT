@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant Bot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom Style -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .chat-container {
+            max-width: 700px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            height: 600px;
+            overflow-y: auto;
+        }
+        .user-msg, .bot-msg {
+            margin: 10px 0;
+        }
+        .user-msg {
+            text-align: right;
+        }
+        .bot-msg {
+            text-align: left;
+        }
+        .msg-bubble {
+            display: inline-block;
+            padding: 10px 15px;
+            border-radius: 20px;
+            max-width: 80%;
+        }
+        .msg-user {
+            background-color: #007bff;
+            color: white;
+        }
+        .msg-bot {
+            background-color: #e9ecef;
+            color: black;
+        }
+        .msg-time {
+            font-size: 0.8rem;
+            color: gray;
+            display: block;
+            margin-top: 3px;
+        }
+        #chatForm {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 700px;
+            background: white;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container" id="chatWindow">
+    <!-- Messages appear here -->
+</div>
+
+<div class="container" id="chatForm">
+    <form id="messageForm" class="d-flex">
+        <input type="text" id="textInput" class="form-control me-2" placeholder="Type your message..." autocomplete="off">
+        <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+</div>
+
+<!-- JQuery + Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    function appendMessage(content, sender = "user") {
+        const time = new Date();
+        const timestamp = time.getHours() + ":" + (time.getMinutes() < 10 ? "0" : "") + time.getMinutes();
+
+        let msgClass = sender === "user" ? "user-msg" : "bot-msg";
+        let bubbleClass = sender === "user" ? "msg-user" : "msg-bot";
+        let senderName = sender === "user" ? "You" : "Restaurant Bot";
+
+        let html = `
+            <div class="${msgClass}">
+                <div class="msg-bubble ${bubbleClass}">
+                    <strong>${senderName}:</strong><br>${content}
+                    <span class="msg-time">${timestamp}</span>
+                </div>
+            </div>
+        `;
+
+        $("#chatWindow").append(html);
+        $("#chatWindow").scrollTop($("#chatWindow")[0].scrollHeight);
+    }
+
+    $("#messageForm").submit(function (e) {
+        e.preventDefault();
+        const userMsg = $("#textInput").val().trim();
+        if (!userMsg) return;
+
+        appendMessage(userMsg, "user");
+        $("#textInput").val("");
+
+        $.ajax({
+            type: "POST",
+            url: "/get",
+            data: { msg: userMsg },
+            success: function (data) {
+                let botReply = (typeof data === "object" && data.answer) ? data.answer : JSON.stringify(data);
+                appendMessage(botReply, "bot");
+            },
+            error: function () {
+                appendMessage("Sorry, there was an error processing your request.", "bot");
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
