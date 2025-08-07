@@ -30,6 +30,9 @@ pip install -r requirements.txt
 ```ini
 PINECONE_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 OPENAI_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+GROQ_API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+LANGCHAIN_API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+LANGCHAIN_PROJECT="xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 ```
 
 
@@ -42,6 +45,9 @@ python store_index.py
 # Finally run the following command
 python app.py
 ```
+# Run with reranking
+
+python app1.py
 
 Now,
 ```bash
@@ -54,6 +60,7 @@ open up localhost:
 - Python
 - LangChain
 - Flask
+- Groq
 - GPT
 - Pinecone
 
