@@ -6,12 +6,12 @@
 Clone the repository
 
 ```bash
-git clonehttps://github.com/entbappy/Build-a-Complete-Medical-Chatbot-with-LLMs-LangChain-Pinecone-Flask-AWS.git
+git clone https://github.com/MOHAMMADBISMILLA/RESTAURANT-BOT.git
 ```
 ### STEP 01- Create a conda environment after opening the repository
 
 ```bash
-conda create -n medibot python=3.10 -y
+conda create -n br python=3.12 -y
 ```
 
 ```bash
@@ -25,7 +25,7 @@ pip install -r requirements.txt
 ```
 
 
-### Create a `.env` file in the root directory and add your Pinecone & openai credentials as follows:
+### Create a `.env` file in the root directory and add your Pinecone,Langchain, & openai credentials as follows:
 
 ```ini
 PINECONE_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -45,9 +45,7 @@ python store_index.py
 # Finally run the following command
 python app.py
 ```
-# Run with reranking
 
-python app1.py
 
 Now,
 ```bash
